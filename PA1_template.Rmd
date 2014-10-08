@@ -1,25 +1,77 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+Reproducible Research: Peer Assessment 1
+========================================================
 
+setwd("D:/Users/xu/Desktop/R Training/Coursera/repdata_data_activity")
 
 ## Loading and preprocessing the data
 
+```{r}
+data <- read.csv("activity.csv")
+summary(data)
+```
 
+Transform the date into Date format
+```{r}
+data$Date<-as.Date(data$date)
+```
 
 ## What is mean total number of steps taken per day?
 
+Calculate the total number of steps taken each day
+```{r}
+steps.per.day<-tapply(data$steps, data$Date, FUN=sum)
+```
+
+Histogram of the total number of steps taken each day
+```{r fig.width=7, fig.height=6}
+hist(steps.per.day, breaks =15, main = "Histogram of Steps Taken per Day", xlab="total steps per day", col="salmon")
+```
+
+Calculate and report the mean and median total number of steps taken per day
+```{r}
+steps.mean<-mean(steps.per.day, na.rm=TRUE)
+steps.median<-median(steps.per.day, na.rm=TRUE)
+```
+The mean total number of steps taken per day is `r steps.mean`  
+The median total number of steps taken per day is `r steps.median`
 
 
 ## What is the average daily activity pattern?
 
+Make a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 
+```{r fig.width=7, fig.height=6}
+plot(y=data$steps, x=data$Date, type="l", col="blue", main="Average number of steps taken by day", ylab="number of steps")
+```
 
 ## Imputing missing values
 
+Calculate and report the total number of missing values in the dataset
+```{r}
+NAs<-sum(is.na(data$steps))
+```
+The total number of missing values in the dataset is `r NAs`.
 
+I use the mean value of steps taken every five minutes to fill in the missing values. Create a new dataset that is equal to the original dataset but with the missing data filled in.
+
+```{r}
+data2=data
+row_NAs <- which(is.na(data2$steps))
+data2$steps<-replace(data2$steps, row_NAs, mean(data$steps, na.rm=TRUE))
+```
+
+Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day.
+
+```{r}
+steps.per.day2<-tapply(data2$steps, data$Date, FUN=sum)
+```
+Histogram of the total number of steps taken each day
+```{r fig.width=7, fig.height=6}
+hist(steps.per.day2, breaks=15)
+```
+The two graphs are different.
 
 ## Are there differences in activity patterns between weekdays and weekends?
+
+
+
