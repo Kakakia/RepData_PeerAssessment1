@@ -1,7 +1,6 @@
 Reproducible Research: Peer Assessment 1
 ========================================================
 
-setwd("D:/Users/xu/Desktop/R Training/Coursera/repdata_data_activity")
 
 ## Loading and preprocessing the data
 
@@ -9,11 +8,12 @@ setwd("D:/Users/xu/Desktop/R Training/Coursera/repdata_data_activity")
 data <- read.csv("activity.csv")
 summary(data)
 ```
-
-Transform the date into Date format
+Transform the date variable into Date format
 ```{r}
 data$Date<-as.Date(data$date)
 ```
+
+
 
 ## What is mean total number of steps taken per day?
 
@@ -32,8 +32,9 @@ Calculate and report the mean and median total number of steps taken per day
 steps.mean<-mean(steps.per.day, na.rm=TRUE)
 steps.median<-median(steps.per.day, na.rm=TRUE)
 ```
-The mean total number of steps taken per day is `r steps.mean`  
+The mean total number of steps taken per day is `r format(steps.mean, digits=7)` 
 The median total number of steps taken per day is `r steps.median`
+
 
 
 ## What is the average daily activity pattern?
@@ -65,13 +66,29 @@ Make a histogram of the total number of steps taken each day and Calculate and r
 ```{r}
 steps.per.day2<-tapply(data2$steps, data$Date, FUN=sum)
 ```
+
 Histogram of the total number of steps taken each day
 ```{r fig.width=7, fig.height=6}
 hist(steps.per.day2, breaks=15)
 ```
-The two graphs are different.
+
+The two graphs are different. The second graph where the missing values are filled have higher frequencies around the mean 10766.19
+
+
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
+Create a new factor variable in the dataset with two levels -- "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
 
+```{r}
+data2$weekdays<-weekdays(data2$Date)
+data2$weekdays2<-ifelse(data2$weekdays %in% c("Saturday", "Sunday"), "weekend", "weekday") 
+```
+
+Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis)
+
+```{r fig.width=7, fig.height=8}
+library(lattice) 
+xyplot(steps ~ interval | weekdays2, data = data2, type = "l", ylab="Number of steps")
+```
 
