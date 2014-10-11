@@ -2,7 +2,10 @@ Reproducible Research: Peer Assessment 1
 ========================================================
 
 
+
 ## Loading and preprocessing the data
+
+
 
 ```{r}
 data <- read.csv("activity.csv")
@@ -15,7 +18,11 @@ data$Date<-as.Date(data$date)
 
 
 
+
 ## What is mean total number of steps taken per day?
+
+
+
 
 Calculate the total number of steps taken each day
 ```{r}
@@ -32,12 +39,12 @@ Calculate and report the mean and median total number of steps taken per day
 steps.mean<-mean(steps.per.day, na.rm=TRUE)
 steps.median<-median(steps.per.day, na.rm=TRUE)
 ```
-The mean total number of steps taken per day is `r format(steps.mean, digits=7)` 
+The mean total number of steps taken per day is `r format(steps.mean, digits=7)`   
 The median total number of steps taken per day is `r steps.median`
 
 
-
 ## What is the average daily activity pattern?
+
 
 Make a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 
@@ -45,6 +52,7 @@ Make a time series plot of the 5-minute interval (x-axis) and the average number
 plot(y=data$steps, x=data$Date, type="l", col="blue", main="Average number of steps taken by day", ylab="number of steps")
 ```
 
+  
 ## Imputing missing values
 
 Calculate and report the total number of missing values in the dataset
@@ -75,7 +83,7 @@ hist(steps.per.day2, breaks=15, main = "Histogram of Steps Taken per Day \n(miss
 The two graphs are different. The second graph where the missing values are filled have higher frequencies around the mean 10766.19
 
 
-
+  
 ## Are there differences in activity patterns between weekdays and weekends?
 
 Create a new factor variable in the dataset with two levels -- "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
@@ -92,3 +100,4 @@ library(lattice)
 xyplot(steps ~ interval | weekdays2, data = data2, type = "l", ylab="Number of steps")
 ```
 
+Yes there are differences in actvity patterns between weekdays and weekends.
