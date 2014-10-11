@@ -69,7 +69,7 @@ steps.per.day2<-tapply(data2$steps, data$Date, FUN=sum)
 
 Histogram of the total number of steps taken each day
 ```{r fig.width=7, fig.height=6}
-hist(steps.per.day2, breaks=15)
+hist(steps.per.day2, breaks=15, main = "Histogram of Steps Taken per Day \n(missing value filled)", xlab="total steps per day", col="salmon")
 ```
 
 The two graphs are different. The second graph where the missing values are filled have higher frequencies around the mean 10766.19
